@@ -1,15 +1,27 @@
 from PIL import Image
-import  numpy
+import harris
+from numpy import array
 from pylab import *
-from scipy.ndimage import filters
-import rof
+import sift
+import harris
 
-im = array(Image.open("1.jpg").convert('L'))
-u, t = rof.denoise(im, im)
-subplot(1, 2, 1)
+imname = '3.jpg'
+im = array(Image.open(imname).convert('L'))
+sift.process_image(imname, '3.sift')
+locs, desc = sift.read_features_from_file('3.sift')
+harrisim = harris.compute_harris_response(im)
+harris_coords = harris.get_harris_points(harrisim)
+figure()
+gray()
+subplot(1, 3, 1)
 imshow(im)
-gray()
-subplot(1, 2, 2)
-imshow(u)
-gray()
+axis('off')
+subplot(1, 3, 2)
+sift.plot_feature(im, locs)
+subplot(1, 3, 3)
+harris.plot_harris_points(im, harris_coords)
 show()
+
+
+
+

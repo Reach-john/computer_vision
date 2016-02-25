@@ -3,10 +3,10 @@ from numpy import zeros, array,argsort
 from pylab import figure, gray, imshow, plot, axis, show
 
 def compute_harris_response(im,sigma=3):
-    imx = zeros(im)
+    imx = zeros(im.shape)
     filters.gaussian_filter(im, (sigma, sigma), (0, 1), imx)
-    imy = zeros(im)
-    filters.gaussian_filter(im, (sigma, sigma), (0, 1), imy)
+    imy = zeros(im.shape)
+    filters.gaussian_filter(im, (sigma, sigma), (1, 0), imy)
     wxx = filters.gaussian_filter(imx * imx, sigma)
     wxy = filters.gaussian_filter(imx * imy, sigma)
     wyy = filters.gaussian_filter(imy * imy, sigma)
@@ -36,4 +36,3 @@ def plot_harris_points(im, filtered_coords):
     plot([p[1] for p in filtered_coords], [p[0] for p in filtered_coords], "*")
     axis('off')
     show()
-    return
